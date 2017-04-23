@@ -1,0 +1,24 @@
+{
+  "name": "stock-chart-app",
+  "version": "1.0.0",
+  "description": "A real-time chart of active stocks, modifiable from any user via Websockets",
+  "main": "index.js",
+  "scripts": {
+    "start": "node app/server.js"
+  },
+  "author": "megaboy101",
+  "license": "ISC",
+  "devDependencies": {
+    "css-loader": "^0.28.0",
+    "elm-webpack-loader": "^4.3.0",
+    "file-loader": "^0.11.1",
+    "style-loader": "^0.16.1",
+    "url-loader": "^0.5.8",
+    "webpack": "^2.4.1",
+    "webpack-dev-middleware": "^1.10.2"
+  },
+  "dependencies": {
+    "express": "^4.15.2",
+    "mongoose": "^4.9.5"
+  }
+}
