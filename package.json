@@ -18,7 +18,11 @@
     "webpack-dev-middleware": "^1.10.2"
   },
   "dependencies": {
+    "amstock3": "github:amcharts/amstock3",
     "express": "^4.15.2",
-    "mongoose": "^4.9.5"
+    "isomorphic-fetch": "^2.2.1",
+    "mongoose": "^4.9.5",
+    "ws": "^2.3.1",
+    "yahoo-finance": "^0.2.16"
   }
 }

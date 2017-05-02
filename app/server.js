@@ -1,17 +1,28 @@
-var path = require('path'),
-    express = require('express'),
-    webpack = require('webpack'),
-    devMiddleware = require('webpack-dev-middleware'),
-    config = require('../webpack.config.dev.js');
+/* eslint-disable no-console */
+const path = require('path'),
+      express = require('express'),
+      mongoose = require('mongoose'),
+      webpack = require('webpack'),
+      devMiddleware = require('webpack-dev-middleware'),
+      router = require('./routes.js'),
+      config = require('../webpack.config.dev.js'),
+      sockets = require('./sockets.js');
 
-const app = express();
-const port = 3000;
-const compiler = webpack(config);
+
+const port = 3000,
+      app = express(),
+      compiler = webpack(config),
+      server = sockets(app);
+
+
+mongoose.connect('mongodb://megaboy101:megaboy101@ds119151.mlab.com:19151/stock-chart-app');
 
 app.use(devMiddleware(compiler, {
     noInfo: false,
     publicPath: config.output.publicPath
 }));
+
+app.use('/api', router);
 
 
 app.get('*', (req, res) => {
@@ -19,7 +30,7 @@ app.get('*', (req, res) => {
 });
 
 
-app.listen(port, err => {
+server.listen(port, err => {
     if (err)
         console.log(err);
     console.log('App started on port: ' + port);

@@ -12,7 +12,7 @@ module.exports = {
     module: {
         rules: [
             {test: /\.elm$/, exclude: [/node_modules/, /elm-stuff/], use: 'elm-webpack-loader?verbose=true&warn=true'},
-            {test: /\.css$/, exclude: /node_modules/, use: ['style-loader', 'css-loader']}
+            {test: /\.css$/, exclude: /node_modules\/(?!amstock3)/, use: ['style-loader', 'css-loader']}
         ]
     },
 

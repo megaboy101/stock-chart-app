@@ -1,28 +1,14 @@
 module Main exposing (..)
+import Html exposing (..)
 
-import Html exposing (div, text, Html, beginnerProgram)
-import Html.Events exposing (onClick)
 
-main: Program Never Int Action
+main : Program Never Model Action
 main =
-  beginnerProgram { model = model, view = view, update = update }
+  program { init = init, view = view, update = update, subscriptions = subscriptions }
 
 
-model : Int
-model =
-  0
-
-
-view : Int -> Html Action
-view model =
-  div [ onClick Increment ]
-    [ text (toString model) ]
-
-
-type Action = Increment
-
-update: Action -> Int -> Int
-update action model =
-  case action of
-    Increment ->
-      model + 1
+-- Model
+type alias Model =
+  {
+    
+  }
