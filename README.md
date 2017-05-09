@@ -1,14 +1,14 @@
 # TODO List
 
-1. Write back-end code
+1. Write back-end code <<=
   - Write up database to save what stock quotes are currently presented
   - Write up Api routes to database and Yahoo finance
   - Write up WebSocket connections
 2. Write Elm code
-  - Set up outline for model/view/update
-  - Create data model
-  - Create view model
+  - Set up outline for model/view/update <<=
+  - Create data model <<=
   - Create update functions
+  - Create view model
   - Setup api Tasks
   - Setup ports
   - Write tests
@@ -34,9 +34,11 @@
 Given a stock symbol (ex: GOOG) as the extension, returns an api response with the resulting stock
 `
   {
-    date: Date,
-    value: Float,
     symbol: String
+    points: [{
+      date: String,
+      value: Float
+    }]
   }
 `
 

@@ -2,6 +2,7 @@
 const path = require('path'),
       express = require('express'),
       mongoose = require('mongoose'),
+      bodyParser = require('body-parser'),
       webpack = require('webpack'),
       devMiddleware = require('webpack-dev-middleware'),
       router = require('./routes.js'),
@@ -21,6 +22,9 @@ app.use(devMiddleware(compiler, {
     noInfo: false,
     publicPath: config.output.publicPath
 }));
+
+app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.json());
 
 app.use('/api', router);
 

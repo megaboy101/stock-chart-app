@@ -1,6 +1,7 @@
 const WebSocket = require('ws'),
       http = require('http'),
-      fetch = require('isomorphic-fetch');
+      stockSearch = require('./stockConfig.js'),
+      Stock = require('./models/Stock.js');
 
 /*
 
@@ -20,47 +21,69 @@ serverSocket connected...
 */
 
 
-module.exports = (app) => {
+module.exports = app => {
     const server = http.createServer(app),
           wss = new WebSocket.Server({ server });
 
     wss.on('connection', client => {
-        fetch('/api/stocks')
-          .then(res => res.json())
-          .then(stocks => client.send(stocks));
+        Stock.find((err, stocks) => {
+          if (err)
+            client.send(err);
+
+          client.send(JSON.stringify({
+            action: "initLoad",
+            body: stocks.map(stock => ({
+              symbol: stock.symbol,
+              history: stock.history
+            }))
+          }));
+        });
 
         client.on('message', data => {
             const message = JSON.parse(data);
             // For add messages
-            if (message.action === 'ADD') {
-              fetch('/api/searchStock/' + message.symbol)
-                .then(res => res.json())
-                .then(stock => {
-                    // Run Websocket and fetch synchronously to use Nodes non-blocking IO
-                    wss.clients.forEach(client => {
-                        if (client.readyState === WebSocket.OPEN)
-                            client.send(stock);
-                    });
+            if (message.action === 'search') {
+                stockSearch(message.body)
+                    .then(stockHistory => {
+                        const response = {
+                            symbol: stockHistory[0].symbol,
+                            history: stockHistory.map(point => ({
+                              date: point.date,
+                              value: point.close
+                            }))
+                        };
 
-                    fetch('/api/stocks', {
-                      method: 'POST',
-                      headers: {
-                          'Accept': 'application/json',
-                          'Content-Type': 'application/json'
-                      },
-                      body: JSON.stringify({ symbol: message.symbol, date: stock.date, value: stock.value })
+                        //Run both Websocket broadcast and database update
+                        wss.clients.forEach(client => {
+                        if (client.readyState === WebSocket.OPEN)
+                            client.send(JSON.stringify({
+                                action: "addStock",
+                                body: response
+                            }));
+                        });
+
+                        let stock = new Stock();
+                        stock.symbol = response.symbol;
+                        stock.history = response.history;
+                        stock.save(err => {
+                          if (err)
+                              client.send(err);
+                        });
                     });
-                });
             }
             // For remove messages
             else {
               wss.clients.forEach(client => {
                   if (client.readyState === WebSocket.OPEN)
-                      client.send(message._id);
+                      client.send(JSON.stringify({
+                          action: "removeStock",
+                          body: message.body
+                      }));
               });
 
-              fetch('/api/stocks/' + message._id, {
-                  method: 'DELETE'
+              Stock.remove({symbol: message.body}, err => {
+                  if (err)
+                      client.send(err);
               });
             }
         });

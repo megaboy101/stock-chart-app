@@ -9,12 +9,13 @@ const router = express.Router();
 router.get('/searchStock/:stock', (req, res) => {
     stockSearch(req.params.stock)
         .then(stockHistory => {
-            res.send(stockHistory.map(point => ({
+            res.json({
+              symbol: stockHistory[0].symbol,
+              history: stockHistory.map(point => ({
                 date: point.date,
-                value: point.close,
-                symbol: point.symbol
-              })
-            ));
+                value: point.close
+              }))
+            });
         })
         .catch(e => res.send(e));
 });
@@ -22,14 +23,21 @@ router.get('/searchStock/:stock', (req, res) => {
 // Read from and write to the stock database
 router.route('/stocks')
     .get((req, res) => {
-        Stock.find((err, stocks) => err ? res.send(err) : res.json(stocks));
+        Stock.find((err, stocks) => {
+          if (err)
+            res.send(err);
+
+          res.json(stocks.map(stock => ({
+            symbol: stock.symbol,
+            history: stock.history
+          })));
+        });
     })
     .post((req, res) => {
         let stock = new Stock();
 
         stock.symbol = req.body.symbol;
-        stock.date = req.body.date;
-        stock.value = req.body.value;
+        stock.history = req.body.history;
 
         stock.save(err => err ? res.send(err) : res.end());
     });
