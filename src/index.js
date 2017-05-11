@@ -1,12 +1,15 @@
+// Import elm code
 var Elm = require('./Main.elm');
 var app = Elm.Main.fullscreen();
 
-// Require elm code before embeding chart
-require('amstock3/amcharts/amcharts.js');
-require('amstock3/amcharts/serial.js');
-require('amstock3/amcharts/amstock.js');
-require('amstock3/amcharts/style.css');
+// Import custom css
+require('./style.css');
+
+// Import Chart code
+var Chartist = require('chartist');
+require('chartist/dist/chartist.min.css');
 var buildChart = require('./chartConfig.js');
 
 
-buildChart(AmChart);
+
+app.ports.loadChart.subscribe( stocks => buildChart(Chartist, stocks) );

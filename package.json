@@ -20,8 +20,10 @@
   "dependencies": {
     "amstock3": "github:amcharts/amstock3",
     "body-parser": "^1.17.1",
+    "chartist": "^0.11.0",
     "express": "^4.15.2",
     "isomorphic-fetch": "^2.2.1",
+    "moment": "^2.18.1",
     "mongoose": "^4.9.5",
     "ws": "^2.3.1",
     "yahoo-finance": "^0.2.16"

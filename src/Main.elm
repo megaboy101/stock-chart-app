@@ -1,10 +1,12 @@
 module Main exposing (..)
-import Html exposing (Html, text, div, input, button, ul, li)
+import Html exposing (Html, text, h1, div, nav, input, button, ul, li)
 import Html.Events exposing (onInput, onClick)
-import Html.Attributes exposing (value, id, style)
+import Html.Attributes exposing (value, id, class, style)
+import WebSocket
+import Updates exposing (Updater(..))
 import Stock exposing (Stock)
 import Sockets exposing (updateBySocket, encodeSearch, encodeSymbol)
-import WebSocket
+
 
 main : Program Never App Updater
 main =
@@ -25,12 +27,6 @@ init =
 
 
 -- Update
-type Updater
-  = UpdateInput String
-  | ReceivedSocket String
-  | SearchStock
-  | RemoveStock String
-
 update : Updater -> App -> (App, Cmd Updater)
 update updater app =
   case updater of
@@ -42,7 +38,7 @@ update updater app =
         symbols = List.map (\stock -> stock.symbol) app.stocks
       in
         if (query /= "") && ((List.member query symbols) == False) then
-          app ! [ WebSocket.send "ws://localhost:3000" (encodeSearch app.input) ]
+          { app | input = "" } ! [ WebSocket.send "ws://localhost:3000" (encodeSearch app.input) ]
         else
           app ! []
     RemoveStock symbol ->
@@ -73,3 +69,11 @@ view app =
       div [ id "chart", style [("width", "100%"), ("height", "400px")]]
         []
     ]
+
+
+  -- div []
+  --   [
+  --     button [ class "toggleNav" ]
+  --       [],
+  --
+  --   ]

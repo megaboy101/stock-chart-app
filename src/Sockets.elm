@@ -1,6 +1,7 @@
 module Sockets exposing (..)
 import Json.Decode as Decode
 import Json.Encode as Encode
+import Portal exposing (loadChart)
 import Stock exposing (Stock, decodeStocks, decodeNewStock, decodeSymbol)
 
 type alias RawMessage = String
@@ -9,11 +10,20 @@ updateBySocket : RawMessage -> { app | stocks : List Stock } -> ({ app | stocks 
 updateBySocket message app =
   case (decodeAction message) of
     "initLoad" ->
-      { app | stocks = (decodeStocks message) } ! []
+      let
+        newStockList = decodeStocks message
+      in
+        { app | stocks = newStockList } ! [ loadChart newStockList ]
     "addStock" ->
-      { app | stocks = List.append app.stocks [(decodeNewStock message)] } ! []
+      let
+        newStockList = List.append app.stocks [(decodeNewStock message)]
+      in
+        { app | stocks = newStockList } ! [ loadChart newStockList ]
     "removeStock" ->
-      { app | stocks = List.filter (\stock -> stock.symbol /= (decodeSymbol message)) app.stocks } ! []
+      let
+        newStockList = List.filter (\stock -> stock.symbol /= (decodeSymbol message)) app.stocks
+      in
+        { app | stocks = newStockList } ! [ loadChart newStockList ]
     _ ->
       let
         result = Debug.log "error" (decodeAction message)

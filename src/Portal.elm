@@ -1,7 +1,4 @@
-port module Portal exposing (outbound, inbound)
+port module Portal exposing (..)
+import Stock exposing (Stock)
 
-
-port outbound : String -> Cmd message
-
-
-port inbound : (String -> action) -> Sub action
+port loadChart : List Stock -> Cmd updater
