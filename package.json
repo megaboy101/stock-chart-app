@@ -12,7 +12,7 @@
     "build": "node build/build.js",
     "install-build-dependancies": "npm install cheerio css-loader dotenv extract-text-webpack-plugin file-loader npm-run-all rimraf style-loader webpack",
     "uninstall-build-dependancies": "npm uninstall cheerio css-loader dotenv extract-text-webpack-plugin file-loader npm-run-all rimraf style-loader webpack",
-    "postinstall": "node_modules/.bin/npm-run-all install-build-dependancies build uninstall-build-dependancies"
+    "postinstall": "npm run install-build-dependancies && npm run build && npm run uninstall-build-dependancies"
   },
   "author": "megaboy101",
   "license": "ISC",
