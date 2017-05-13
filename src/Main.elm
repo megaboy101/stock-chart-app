@@ -53,7 +53,7 @@ update updater app =
 subscriptions : App -> Sub Updater
 subscriptions app =
   Sub.batch
-    [ WebSocket.listen "ws://localhost:3000" ReceivedSocket ]
+    [ WebSocket.listen "ws://megaboy-market-lounge.herokuapp.com" ReceivedSocket ]
 
 
 -- View
