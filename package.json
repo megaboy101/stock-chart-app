@@ -4,7 +4,15 @@
   "description": "A real-time chart of active stocks, modifiable from any user via Websockets",
   "main": "index.js",
   "scripts": {
-    "start": "node app/server.js"
+    "start": "node app/server.js",
+    "delete-dist": "node_modules/.bin/rimraf ./dist",
+    "clean-dist": "npm run remove-dist && mkdir dist",
+    "build-html": "babel-node build/buildHtml.js",
+    "prebuild": "node_modules/.bin/npm-run-all clean-dist build-html",
+    "build": "node_modules/.bin/babel-node build/build.js",
+    "install-build-dependancies": "npm install babel-loader cheerio css-loader dotenv extract-text-webpack-plugin file-loader mobx-react-devtools node-sass npm-run-all react-svg-loader rimraf sass-loader style-loader url-loader webpack webpack-dev-middleware",
+    "uninstall-build-dependancies": "npm uninstall babel-loader cheerio css-loader dotenv extract-text-webpack-plugin file-loader mobx-react-devtools node-sass npm-run-all react-svg-loader rimraf sass-loader style-loader url-loader webpack webpack-dev-middleware",
+    "postinstall": "npm run install-build-dependancies && npm run build && npm run uninstall-build-dependancies"
   },
   "author": "megaboy101",
   "license": "ISC",
@@ -18,13 +26,14 @@
     "webpack-dev-middleware": "^1.10.2"
   },
   "dependencies": {
-    "amstock3": "github:amcharts/amstock3",
     "body-parser": "^1.17.1",
     "chartist": "^0.11.0",
+    "chartist-plugin-axistitle": "0.0.1",
     "express": "^4.15.2",
     "isomorphic-fetch": "^2.2.1",
     "moment": "^2.18.1",
     "mongoose": "^4.9.5",
+    "tachyons": "^4.7.0",
     "ws": "^2.3.1",
     "yahoo-finance": "^0.2.16"
   }

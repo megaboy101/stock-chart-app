@@ -1,16 +1,13 @@
 var moment = require('moment');
 
 module.exports = (Chartist, stocks) => {
-  var series = [];
-  for (var i = 0; i < stocks.length; i++) {
-      series.push({
-          name: stocks[i].symbol,
-          data: stocks[i].history.map(point => ({
-              x: new Date(point.date),
-              y: point.value
-          }))
-      });
-  }
+  var series = stocks.map(s => ({
+    name: s.symbol,
+    data: s.history.map(p => ({
+      x: new Date(p.date),
+      y: p.value
+    }))
+  }));
 
 
   var chart = new Chartist.Line('#chart', { series: series },
@@ -23,7 +20,30 @@ module.exports = (Chartist, stocks) => {
             }
         },
         showPoint: false,
-        showArea: true
+        showArea: true,
+        plugins: [
+    Chartist.plugins.ctAxisTitle({
+      axisX: {
+        axisTitle: 'Months',
+        axisClass: 'ct-axis-title f6 avenir b svg-dark-gray',
+        offset: {
+          x: 0,
+          y: 33
+        },
+        textAnchor: 'middle'
+      },
+      axisY: {
+        axisTitle: 'Value (Day-end in $)',
+        axisClass: 'ct-axis-title f6 avenir b svg-dark-gray',
+        offset: {
+          x: 0,
+          y: 14
+        },
+        textAnchor: 'middle',
+        flipTitle: true
+      }
+    })
+  ]
     });
 
     chart.on('draw', function(data) {
@@ -39,4 +59,9 @@ module.exports = (Chartist, stocks) => {
       });
     }
   });
+
+
+
+
+
 };

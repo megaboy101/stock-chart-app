@@ -69,6 +69,12 @@ module.exports = app => {
                           if (err)
                               client.send(err);
                         });
+                    })
+                    .catch(() => {
+                        client.send(JSON.stringify({
+                            action: "stockNotFound",
+                            body: []
+                        }));
                     });
             }
             // For remove messages

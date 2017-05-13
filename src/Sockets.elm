@@ -6,29 +6,31 @@ import Stock exposing (Stock, decodeStocks, decodeNewStock, decodeSymbol)
 
 type alias RawMessage = String
 
-updateBySocket : RawMessage -> { app | stocks : List Stock } -> ({ app | stocks : List Stock }, Cmd updater)
+updateBySocket : RawMessage -> { app | stocks : List Stock, inputPlaceholder : String } -> ({ app | stocks : List Stock, inputPlaceholder : String }, Cmd updater)
 updateBySocket message app =
   case (decodeAction message) of
     "initLoad" ->
       let
         newStockList = decodeStocks message
       in
-        { app | stocks = newStockList } ! [ loadChart newStockList ]
+        { app | stocks = newStockList, inputPlaceholder = "" } ! [ loadChart newStockList ]
     "addStock" ->
       let
         newStockList = List.append app.stocks [(decodeNewStock message)]
       in
-        { app | stocks = newStockList } ! [ loadChart newStockList ]
+        { app | stocks = newStockList, inputPlaceholder = "" } ! [ loadChart newStockList ]
     "removeStock" ->
       let
         newStockList = List.filter (\stock -> stock.symbol /= (decodeSymbol message)) app.stocks
       in
-        { app | stocks = newStockList } ! [ loadChart newStockList ]
+        { app | stocks = newStockList, inputPlaceholder = "" } ! [ loadChart newStockList ]
+    "stockNotFound" ->
+      { app | inputPlaceholder = "Stock not found!" } ! []
     _ ->
       let
         result = Debug.log "error" (decodeAction message)
       in
-        app ! []
+        { app | inputPlaceholder = "Error, sorry :("} ! []
 
 
 decodeAction : RawMessage -> String

@@ -1,3 +1,28 @@
-.test {
-  color: red;
+/* Misc. Custom Styles */
+
+/* Slide animation on stock symbols */
+.slide { animation: animation 2000ms linear both; }
+
+@keyframes animation {
+  0% { transform: matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 50, 0, 1); opacity: 0; }
+  2.5% { transform: matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 34.56, 0, 1); }
+  5.01% { transform: matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 23.552, 0, 1); }
+  10.01% { transform: matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 10.453, 0, 1); }
+  15.02% { transform: matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 4.32, 0, 1); }
+  20.02% { transform: matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 1.617, 0, 1); }
+  30.03% { transform: matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0.1, 0, 1); }
+  40.04% { transform: matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, -0.047, 0, 1); opacity: 1; }
+  100% { transform: matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); }
+}
+
+/* Fix coloring on chart axiss */
+.svg-dark-gray { fill: #505050; }
+
+/* Fix responsive chart sizing */
+@media screen and (max-width: 60rem) {
+  .h-fix { height: 300px; }
+}
+
+@media screen and (max-width: 30rem) {
+  .h-fix { height: 200px; }
 }

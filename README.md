@@ -4,20 +4,22 @@
   - Write up database to save what stock quotes are currently presented
   - Write up Api routes to database and Yahoo finance
   - Write up WebSocket connections
-2. Write Elm code
-  - Set up outline for model/view/update <<=
-  - Create data model <<=
+2. Write Elm code <<=
+  - Set up outline for model/view/update
+  - Create data model
   - Create update functions
   - Create view model
-  - Setup api Tasks
   - Setup ports
-  - Write tests
-3. Write front-end code
+3. Write front-end code <<=
   - Create Stock chart
   - Integrate chart to Elm
   - Create app theming
   - Write css styles
-4. Write up production build code
+4. Setup error handling
+  - Error handle input <<=
+  - Error handle stock errors <<=
+  - Error handle loading
+5. Write up production build code
   - Setup NPM scripts
   - Setup production Webpack build
   - Setup production HTML file

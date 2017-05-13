@@ -1,7 +1,8 @@
 module Stock exposing (..)
 import Json.Decode as Decode
-import Html exposing (..)
+import Html exposing (Html, li, span, text, button)
 import Html.Events exposing (onClick)
+import Html.Attributes exposing (style, class)
 
 -- Model
 type alias Stock =
@@ -49,12 +50,11 @@ decodePoint =
 
 
 -- Stock Card view component
-view : String -> (String -> updater) -> Html updater
-view symbol delete =
-  div []
+view : String -> String -> (String -> updater) -> Html updater
+view symbol colorHex delete =
+  li [ class "slide", style [("font-size", "70px"), ("color", colorHex)] ]
     [
-      h1 []
-        [ text symbol ],
-      button [ onClick (delete symbol) ]
-        [ text "X" ]
+      text "●",
+      span [ class "f3 b avenir dark-gray pl2", style [("vertical-align", "middle")] ] [ text symbol ],
+      button [ onClick (delete symbol), class "bn bg-white b dark-gray f4 ml5 pointer", style [("vertical-align", "middle")] ] [ text "x" ]
     ]
