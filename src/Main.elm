@@ -42,9 +42,9 @@ update updater app =
         else if (List.member query symbols) == True then
           { app | inputPlaceholder = "That stock already exists!", input = "" } ! []
         else
-          { app | input = "", inputPlaceholder = "Loading..." } ! [ WebSocket.send "ws://megaboy-market-lounge.herokuapp.com" (encodeSearch app.input) ]
+          { app | input = "", inputPlaceholder = "Loading..." } ! [ WebSocket.send "wss://megaboy-market-lounge.herokuapp.com" (encodeSearch app.input) ]
     RemoveStock symbol ->
-      app ! [ WebSocket.send "ws://megaboy-market-lounge.herokuapp.com" (encodeSymbol symbol) ]
+      app ! [ WebSocket.send "wss://megaboy-market-lounge.herokuapp.com" (encodeSymbol symbol) ]
     ReceivedSocket json ->
       updateBySocket json app
 
@@ -53,7 +53,7 @@ update updater app =
 subscriptions : App -> Sub Updater
 subscriptions app =
   Sub.batch
-    [ WebSocket.listen "ws://megaboy-market-lounge.herokuapp.com" ReceivedSocket ]
+    [ WebSocket.listen "wss://megaboy-market-lounge.herokuapp.com" ReceivedSocket ]
 
 
 -- View
