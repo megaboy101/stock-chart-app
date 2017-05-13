@@ -5,7 +5,6 @@ const path = require('path'),
       bodyParser = require('body-parser'),
       webpack = require('webpack'),
       devMiddleware = require('webpack-dev-middleware'),
-      router = require('./routes.js'),
       config = require('../webpack.config.dev.js'),
       sockets = require('./sockets.js');
 
@@ -16,7 +15,7 @@ const port = 3000,
       server = sockets(app);
 
 
-mongoose.connect('mongodb://megaboy101:megaboy101@ds119151.mlab.com:19151/stock-chart-app');
+mongoose.connect('mongodb://${process.env.MLAB_USERNAME}:${process.env.MLAB_PASSWORD}@ds119151.mlab.com:19151/stock-chart-app');
 
 app.use(devMiddleware(compiler, {
     noInfo: false,
@@ -25,8 +24,6 @@ app.use(devMiddleware(compiler, {
 
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
-
-app.use('/api', router);
 
 
 app.get('*', (req, res) => {
