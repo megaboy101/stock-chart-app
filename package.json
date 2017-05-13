@@ -10,8 +10,8 @@
     "build-html": "node build/generateHtml.js",
     "prebuild": "node_modules/.bin/npm-run-all clean-dist build-html",
     "build": "node build/build.js",
-    "install-build-dependancies": "npm install cheerio css-loader dotenv extract-text-webpack-plugin file-loader npm-run-all rimraf style-loader webpack",
-    "uninstall-build-dependancies": "npm uninstall cheerio css-loader dotenv extract-text-webpack-plugin file-loader npm-run-all rimraf style-loader webpack",
+    "install-build-dependancies": "npm install cheerio css-loader dotenv extract-text-webpack-plugin file-loader npm-run-all rimraf style-loader elm-webpack-loader webpack",
+    "uninstall-build-dependancies": "npm uninstall cheerio css-loader dotenv extract-text-webpack-plugin file-loader npm-run-all rimraf style-loader elm-webpack-loader webpack",
     "postinstall": "npm run install-build-dependancies && npm run build && npm run uninstall-build-dependancies"
   },
   "author": "megaboy101",
